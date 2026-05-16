@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 class EmptyFieldException extends Exception {
@@ -40,6 +41,7 @@ class LibraryGUI extends JFrame implements ActionListener {
     JLabel lblBookCategory;
     JLabel lblIssueDate;
     JLabel lblReturnDate;
+    JLabel lblBookType;
 
     JTextField txtStudentName;
     JTextField txtRollNumber;
@@ -54,70 +56,76 @@ class LibraryGUI extends JFrame implements ActionListener {
     ButtonGroup bookTypeGroup;
 
     JButton btnIssueBook;
-    JButton btnReset;
-    JButton btnExit;
+    JButton btnClear;
+    JButton btnClose;
 
     LibraryGUI() {
 
-        setTitle("Library Book Issue System");
-        setSize(450, 450);
+        setTitle("Library Management System");
+        setSize(500, 500);
         setLayout(null);
+        getContentPane().setBackground(Color.LIGHT_GRAY);
 
-        lblStudentName = new JLabel("Student Name");
-        lblRollNumber = new JLabel("Roll Number");
-        lblBookCategory = new JLabel("Book Category");
-        lblIssueDate = new JLabel("Issue Date");
-        lblReturnDate = new JLabel("Return Date");
+        lblStudentName = new JLabel("Student Name:");
+        lblRollNumber = new JLabel("Roll Number:");
+        lblBookCategory = new JLabel("Book Category:");
+        lblIssueDate = new JLabel("Issue Date:");
+        lblReturnDate = new JLabel("Return Date:");
+        lblBookType = new JLabel("Book Type:");
 
         txtStudentName = new JTextField();
         txtRollNumber = new JTextField();
-
         txtIssueDate = new JTextField();
         txtReturnDate = new JTextField();
 
-        String[] bookCategories = {
-                "Select Category",
+        String[] categories = {
+                "Choose Category",
                 "Programming",
                 "AI",
                 "Database",
                 "Networking"
         };
 
-        cmbBookCategory = new JComboBox<>(bookCategories);
+        cmbBookCategory = new JComboBox<>(categories);
 
-        rbNewEdition = new JRadioButton("New Edition");
-        rbOldEdition = new JRadioButton("Old Edition");
+        rbNewEdition = new JRadioButton("New");
+        rbOldEdition = new JRadioButton("Old");
+
+        rbNewEdition.setBackground(Color.LIGHT_GRAY);
+        rbOldEdition.setBackground(Color.LIGHT_GRAY);
 
         bookTypeGroup = new ButtonGroup();
 
         bookTypeGroup.add(rbNewEdition);
         bookTypeGroup.add(rbOldEdition);
 
-        btnIssueBook = new JButton("Issue Book");
-        btnReset = new JButton("Reset");
-        btnExit = new JButton("Exit");
+        btnIssueBook = new JButton("Issue");
+        btnClear = new JButton("Clear");
+        btnClose = new JButton("Close");
 
-        lblStudentName.setBounds(30, 30, 120, 30);
-        txtStudentName.setBounds(170, 30, 180, 30);
+        lblStudentName.setBounds(40, 40, 120, 30);
+        txtStudentName.setBounds(180, 40, 200, 30);
 
-        lblRollNumber.setBounds(30, 80, 120, 30);
-        txtRollNumber.setBounds(170, 80, 180, 30);
+        lblRollNumber.setBounds(40, 90, 120, 30);
+        txtRollNumber.setBounds(180, 90, 200, 30);
 
-        lblBookCategory.setBounds(30, 130, 120, 30);
-        cmbBookCategory.setBounds(170, 130, 180, 30);
+        lblBookCategory.setBounds(40, 140, 120, 30);
+        cmbBookCategory.setBounds(180, 140, 200, 30);
 
-        lblIssueDate.setBounds(30, 180, 120, 30);
-        txtIssueDate.setBounds(170, 180, 180, 30);
+        lblIssueDate.setBounds(40, 190, 120, 30);
+        txtIssueDate.setBounds(180, 190, 200, 30);
 
-        lblReturnDate.setBounds(30, 230, 120, 30);
-        txtReturnDate.setBounds(170, 230, 180, 30);
+        lblReturnDate.setBounds(40, 240, 120, 30);
+        txtReturnDate.setBounds(180, 240, 200, 30);
 
-        rbNewEdition.setBounds(170, 280, 120, 30);
-        rbOldEdition.setBounds(290, 280, 120, 30);
+        lblBookType.setBounds(40, 290, 120, 30);
 
-        btnIssueBook.setBounds(30, 340, 120, 30);
-        btnReset.setBounds(170, 340, 100, 30);
-        btnExit.setBounds(290, 340, 100, 30);
+        rbNewEdition.setBounds(180, 290, 80, 30);
+        rbOldEdition.setBounds(270, 290, 80, 30);
+
+        btnIssueBook.setBounds(40, 370, 100, 35);
+        btnClear.setBounds(180, 370, 100, 35);
+        btnClose.setBounds(320, 370, 100, 35);
 
         add(lblStudentName);
         add(txtStudentName);
@@ -134,20 +142,20 @@ class LibraryGUI extends JFrame implements ActionListener {
         add(lblReturnDate);
         add(txtReturnDate);
 
+        add(lblBookType);
         add(rbNewEdition);
         add(rbOldEdition);
 
         add(btnIssueBook);
-        add(btnReset);
-        add(btnExit);
+        add(btnClear);
+        add(btnClose);
 
         btnIssueBook.addActionListener(this);
-        btnReset.addActionListener(this);
-        btnExit.addActionListener(this);
-
-        setVisible(true);
+        btnClear.addActionListener(this);
+        btnClose.addActionListener(this);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -156,17 +164,10 @@ class LibraryGUI extends JFrame implements ActionListener {
 
             try {
 
-                String studentName =
-                        txtStudentName.getText();
-
-                String rollNumber =
-                        txtRollNumber.getText();
-
-                String issueDate =
-                        txtIssueDate.getText();
-
-                String returnDate =
-                        txtReturnDate.getText();
+                String studentName = txtStudentName.getText();
+                String rollNumber = txtRollNumber.getText();
+                String issueDate = txtIssueDate.getText();
+                String returnDate = txtReturnDate.getText();
 
                 if(studentName.isEmpty() ||
                         rollNumber.isEmpty() ||
@@ -174,13 +175,13 @@ class LibraryGUI extends JFrame implements ActionListener {
                         returnDate.isEmpty()) {
 
                     throw new EmptyFieldException(
-                            "All fields are required");
+                            "Please fill all fields");
                 }
 
                 if(!rollNumber.matches("\\d+")) {
 
                     throw new InvalidRollNumberException(
-                            "Roll Number must contain digits only");
+                            "Invalid Roll Number");
                 }
 
                 Integer.parseInt(rollNumber);
@@ -188,20 +189,20 @@ class LibraryGUI extends JFrame implements ActionListener {
                 if(cmbBookCategory.getSelectedIndex() == 0) {
 
                     throw new NullSelectionException(
-                            "Please select book category");
+                            "Select Book Category");
                 }
 
                 if(!rbNewEdition.isSelected() &&
                         !rbOldEdition.isSelected()) {
 
                     throw new NullSelectionException(
-                            "Please select book type");
+                            "Select Book Type");
                 }
 
                 if(returnDate.compareTo(issueDate) < 0) {
 
                     throw new InvalidDateException(
-                            "Return Date cannot be earlier than Issue Date");
+                            "Return Date is invalid");
                 }
 
                 JOptionPane.showMessageDialog(
@@ -224,11 +225,10 @@ class LibraryGUI extends JFrame implements ActionListener {
             }
         }
 
-        if(e.getSource() == btnReset) {
+        if(e.getSource() == btnClear) {
 
             txtStudentName.setText("");
             txtRollNumber.setText("");
-
             txtIssueDate.setText("");
             txtReturnDate.setText("");
 
@@ -237,7 +237,7 @@ class LibraryGUI extends JFrame implements ActionListener {
             bookTypeGroup.clearSelection();
         }
 
-        if(e.getSource() == btnExit) {
+        if(e.getSource() == btnClose) {
 
             System.exit(0);
         }
